@@ -18,6 +18,19 @@ void ASCharacter::BeginPlay()
 	
 }
 
+// Character Movement Functions
+// These are called in the SetupPlayerInputComponent functions
+// We need to make sure that there is an axis binding to the movement functions.
+void ASCharacter::MoveForward(float Value) 
+{
+	AddMovementInput(GetActorForwardVector() * Value);
+}
+
+void ASCharacter::MoveRight(float Value)
+{
+	AddMovementInput(GetActorRightVector() * Value);
+}
+
 // Called every frame
 void ASCharacter::Tick(float DeltaTime)
 {
@@ -30,5 +43,9 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Start by adding player movement
+	// Axis allows for joystick bindings
+	PlayerInputComponent->BindAxis("MoveForward", this, &ASCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ASCharacter::MoveRight);
 }
 
