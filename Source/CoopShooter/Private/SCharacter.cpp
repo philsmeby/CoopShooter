@@ -3,6 +3,7 @@
 
 #include "SCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
@@ -14,6 +15,8 @@ ASCharacter::ASCharacter()
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
 	SpringArmComp->bUsePawnControlRotation = true;
 	SpringArmComp->SetupAttachment(RootComponent);
+
+	GetMovementComponent()->GetNavAgentPropertiesRef().bCanCrouch = true;
 
 	// Add a camera component to the player character, variable CameraComp needs to match what is in the header file.
 	// Text here is a macro
@@ -47,6 +50,16 @@ void ASCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ASCharacter::BeginCrouch()
+{
+	Crouch();
+}
+
+void ASCharacter::EndCrouch()
+{
+	UnCrouch();
+}
+
 // Called to bind functionality to input
 void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -58,4 +71,6 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("Lookup", this, &ASCharacter::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("Turn", this, &ASCharacter::AddControllerYawInput);
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ASCharacter::BeginCrouch);
+	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &ASCharacter::EndCrouch);
 }
