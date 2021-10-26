@@ -1,12 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "SWeapon.h"
 #include "DrawDebugHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
+
+#define internal static
+#define local_persist static
+#define global_variable static
+
+global_variable int32 DebugWeaponDrawing = 0;
+FAutoConsoleVariableRef CVARDebugWeaponDrawing(
+	TEXT("COOP.DebugWeapons"),
+	DebugWeaponDrawing,
+	TEXT("Draw Debug Lines for Weapons"),
+	ECVF_Cheat);
 
 // Sets default values
 ASWeapon::ASWeapon()
@@ -63,7 +72,10 @@ void ASWeapon::Fire()
 			TracerEndPoint = Hit.ImpactPoint;
 		}
 
-		DrawDebugLine(GetWorld(), EyeLocation, TraceEnd, FColor::White, false, 1.0f, 0, 1.0f);
+		if (DebugWeaponDrawing > 0)
+		{
+			DrawDebugLine(GetWorld(), EyeLocation, TraceEnd, FColor::White, false, 1.0f, 0, 1.0f);	
+		}
 
 		if (MuzzleEffect)
 		{
