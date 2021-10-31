@@ -15,13 +15,11 @@ class COOPSHOOTER_API ASWeapon : public AActor
 {
 	GENERATED_BODY()
 	
-	public:	
+public:	
 	// Sets default values for this actor's properties
 	ASWeapon();
 
-	protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USkeletalMeshComponent* MeshComp;
@@ -46,9 +44,5 @@ class COOPSHOOTER_API ASWeapon : public AActor
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	UParticleSystem* TracerEffect;
-
-	public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 };

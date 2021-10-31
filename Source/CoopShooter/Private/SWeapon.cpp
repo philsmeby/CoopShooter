@@ -30,13 +30,6 @@ ASWeapon::ASWeapon()
 	TracerTargetName = "BeamEnd";
 }
 
-// Called when the game starts or when spawned
-void ASWeapon::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
 void ASWeapon::Fire()
 {
 	// Trace the world, from Pawn eyes to the crosshair location
@@ -96,11 +89,4 @@ void ASWeapon::Fire()
 		}
 		
 	}
-}
-
-// Called every frame
-void ASWeapon::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
