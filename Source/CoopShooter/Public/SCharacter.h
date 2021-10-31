@@ -14,11 +14,11 @@ class COOPSHOOTER_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-public:
+	public:
 	// Sets default values for this character's properties
 	ASCharacter();
 
-protected:
+	protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -49,7 +49,7 @@ protected:
 	void BeginZoom();
 	void EndZoom();
 
-public:	
+	public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
