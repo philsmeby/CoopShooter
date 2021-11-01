@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
 
+class ASWeapon;
 class UCameraComponent;
 class USpringArmComponent;
 
@@ -13,10 +14,6 @@ UCLASS()
 class COOPSHOOTER_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
-
-	public:
-	// Sets default values for this character's properties
-	ASCharacter();
 
 	protected:
 	// Called when the game starts or when spawned
@@ -49,7 +46,18 @@ class COOPSHOOTER_API ASCharacter : public ACharacter
 	void BeginZoom();
 	void EndZoom();
 
-	public:	
+	ASWeapon* CurrentWeapon;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	TSubclassOf<ASWeapon> StarterWeaponClass;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "Player")
+	FName WeaponAttachSocketName;
+
+	public:
+	// Sets default values for this character's properties
+	ASCharacter();
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -57,4 +65,7 @@ class COOPSHOOTER_API ASCharacter : public ACharacter
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual FVector GetPawnViewLocation() const override;
+
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void Fire();
 };
