@@ -59,8 +59,8 @@ void ASWeapon::Fire()
 			// Something blocked our projectile, Process damage
 			AActor* HitActor = Hit.GetActor();
 			UGameplayStatics::ApplyPointDamage(HitActor, 20.0f, ShotDirection, Hit, MyOwner->GetInstigatorController(), this, DamageType);
-			
-			// TODO(Phil): Need to fix this. 1 unresolved externals UPhysicalMaterial::DetermineSurfaceType
+
+			// Note: this UPhysicalMaterial required me to add the module PhysicsCore to CoopShooter.uproject file.
 			EPhysicalSurface SurfaceType = UPhysicalMaterial::DetermineSurfaceType(Hit.PhysMaterial.Get());
 			UParticleSystem* SelectedEffect = DefaultImpactEffect;
 

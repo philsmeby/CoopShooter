@@ -68,11 +68,13 @@ void ASCharacter::BeginZoom()
 	bWantsToZoom = true;
 }
 
+//** End Aiming Zoom */
 void ASCharacter::EndZoom()
 {
 	bWantsToZoom = false;
 }
 
+//** Fire Weapon */
 void ASCharacter::Fire()
 {
 	if (CurrentWeapon)
