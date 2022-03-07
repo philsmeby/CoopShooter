@@ -50,6 +50,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	UParticleSystem* TracerEffect;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	TSubclassOf<UCameraShakeBase> FireCamShake;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+	float BaseDamage;
 };

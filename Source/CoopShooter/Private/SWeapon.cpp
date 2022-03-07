@@ -30,6 +30,8 @@ ASWeapon::ASWeapon()
 
 	MuzzleSocketName = "MuzzleSocket";
 	TracerTargetName = "BeamEnd";
+
+	BaseDamage = 20.f;
 }
 
 void ASWeapon::Fire()
@@ -49,16 +51,17 @@ void ASWeapon::Fire()
 		QueryParams.AddIgnoredActor(MyOwner);
 		QueryParams.AddIgnoredActor(this);
 		QueryParams.bTraceComplex = true;
+		QueryParams.bReturnPhysicalMaterial = true;
 
 		// Particle Target parameter
 		FVector TracerEndPoint = TraceEnd;
 
 		FHitResult Hit;
-		if (GetWorld()->LineTraceSingleByChannel(Hit, EyeLocation, TraceEnd, ECC_Visibility, QueryParams))
+		float HitDamage = BaseDamage;
+		if (GetWorld()->LineTraceSingleByChannel(Hit, EyeLocation, TraceEnd, COLLISION_WEAPON, QueryParams))
 		{
 			// Something blocked our projectile, Process damage
 			AActor* HitActor = Hit.GetActor();
-			UGameplayStatics::ApplyPointDamage(HitActor, 20.0f, ShotDirection, Hit, MyOwner->GetInstigatorController(), this, DamageType);
 
 			// Note: this UPhysicalMaterial required me to add the module PhysicsCore to CoopShooter.uproject file.
 			EPhysicalSurface SurfaceType = UPhysicalMaterial::DetermineSurfaceType(Hit.PhysMaterial.Get());
@@ -67,13 +70,16 @@ void ASWeapon::Fire()
 			if (SurfaceType == SURFACE_FLESHVULNERABLE)
 			{
 				SelectedEffect = FleshImpactEffect;
+				HitDamage *= 4.0f;
 			}
-
+			UE_LOG(LogTemp, Warning, TEXT("Actual Hit Damage: %f"), HitDamage);
+			UGameplayStatics::ApplyPointDamage(HitActor, HitDamage, ShotDirection, Hit, MyOwner->GetInstigatorController(), this, DamageType);
+			
 			if (SelectedEffect)
 			{
 				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), SelectedEffect, Hit.ImpactPoint, Hit.ImpactNormal.Rotation());
 			}
-
+			
 			TracerEndPoint = Hit.ImpactPoint;
 		}
 
