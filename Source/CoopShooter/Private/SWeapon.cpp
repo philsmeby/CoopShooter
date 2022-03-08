@@ -7,6 +7,7 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "./CoopShooter/CoopShooter.h"
+#include "Sound/SoundCue.h"
 
 #define internal static
 #define local_persist static
@@ -57,6 +58,10 @@ void ASWeapon::BeginPlay()
 
 void ASWeapon::Fire()
 {
+	if (FireSound)
+	{
+		UGameplayStatics::PlaySound2D(this, FireSound);
+	}
 	// Trace the world, from Pawn eyes to the crosshair location
 	AActor* MyOwner = GetOwner();
 	if (MyOwner)
@@ -141,7 +146,7 @@ void ASWeapon::PlayFireEffects(FVector TraceEnd)
 		APlayerController* PC = Cast<APlayerController>(MyOwner->GetController());
 		if (PC)
 		{
-			PC->ClientPlayCameraShake(FireCamShake);
+			PC->ClientStartCameraShake(FireCamShake, 1, ECameraShakePlaySpace::CameraLocal, FRotator::ZeroRotator);
 		}
 	}
 }

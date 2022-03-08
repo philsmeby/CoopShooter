@@ -22,6 +22,10 @@ public:
 	void StartFire();
 
 	void StopFire();
+	
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Weapon, meta = (AllowPrivateAccess = "true"))
+	class USoundCue* FireSound;
 
 protected:
 
