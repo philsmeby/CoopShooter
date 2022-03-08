@@ -4,8 +4,10 @@
 #include "SCharacter.h"
 #include "SWeapon.h"
 #include "Camera/CameraComponent.h"
+#include "CoopShooter/CoopShooter.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -19,6 +21,7 @@ ASCharacter::ASCharacter()
 	SpringArmComp->SetupAttachment(RootComponent);
 
 	GetMovementComponent()->GetNavAgentPropertiesRef().bCanCrouch = true;
+	GetCapsuleComponent()->SetCollisionResponseToChannel(COLLISION_WEAPON, ECR_Ignore);
 
 	// Add a camera component to the player character, variable CameraComp needs to match what is in the header file.
 	// Text here is a macro

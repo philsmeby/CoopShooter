@@ -1,9 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "GameFramework/Actor.h"
 #include "SHealthComponent.generated.h"
 
 
@@ -20,7 +19,12 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = HealthComponent)
+	UPROPERTY(BlueprintReadOnly, Category = HealthComponent)
 	float Health;
-			
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HealthComponent)
+	float DefaultHealth;
+
+	UFUNCTION()
+	void HandleTakeAnyDamage(AActor* DamagedActor, float DamageEventHeader, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 };
