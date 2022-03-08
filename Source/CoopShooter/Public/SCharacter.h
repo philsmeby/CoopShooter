@@ -67,5 +67,8 @@ class COOPSHOOTER_API ASCharacter : public ACharacter
 	virtual FVector GetPawnViewLocation() const override;
 
 	UFUNCTION(BlueprintCallable, Category = "Player")
-	void Fire();
+	void StartFire();
+
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void StopFire();
 };

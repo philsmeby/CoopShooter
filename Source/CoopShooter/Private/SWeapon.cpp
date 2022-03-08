@@ -32,6 +32,27 @@ ASWeapon::ASWeapon()
 	TracerTargetName = "BeamEnd";
 
 	BaseDamage = 20.f;
+	RateOfFire = 600.f;
+}
+
+void ASWeapon::StartFire()
+{
+	float FirstDelay = FireCoolDown + TimeBetweenShots - GetWorld()->TimeSeconds;
+	// Max returns the value that is the highest, so we need a value higher than 0.
+	FirstDelay = FMath::Max(FirstDelay, 0.0f);
+	GetWorldTimerManager().SetTimer(TimerHandle_TimeBetweenShots, this, &ASWeapon::Fire, TimeBetweenShots, true, FirstDelay);
+}
+
+void ASWeapon::StopFire()
+{
+	GetWorldTimerManager().ClearTimer(TimerHandle_TimeBetweenShots);
+}
+
+void ASWeapon::BeginPlay()
+{
+	Super::BeginPlay();
+
+	TimeBetweenShots = 60 / RateOfFire;
 }
 
 void ASWeapon::Fire()
@@ -88,7 +109,9 @@ void ASWeapon::Fire()
 			DrawDebugLine(GetWorld(), EyeLocation, TraceEnd, FColor::White, false, 1.0f, 0, 1.0f);	
 		}
 
-		PlayFireEffects(TracerEndPoint);		
+		PlayFireEffects(TracerEndPoint);
+
+		FireCoolDown = GetWorld()->TimeSeconds;
 	}
 }
 

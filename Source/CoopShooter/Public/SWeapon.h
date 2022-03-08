@@ -18,11 +18,14 @@ class COOPSHOOTER_API ASWeapon : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ASWeapon();
+	
+	void StartFire();
 
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	virtual void Fire();
+	void StopFire();
 
 protected:
+
+	virtual void BeginPlay() override;
 
 	void PlayFireEffects(FVector TraceEnd);
 
@@ -55,4 +58,17 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	float BaseDamage;
+
+	virtual void Fire();
+
+	FTimerHandle TimerHandle_TimeBetweenShots;
+
+	float FireCoolDown;
+
+	/** Bullets per minute 600 = 10 bullets per second */
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+	float RateOfFire;
+
+	/** Derived from rate of fire*/
+	float TimeBetweenShots;
 };
