@@ -5,6 +5,9 @@
 #include "GameFramework/Actor.h"
 #include "SHealthComponent.generated.h"
 
+// This declare statement creates a custom event
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FOnHealthChangedSignature, USHealthComponent*, HealthComp, float, Health, float, HealthDelta, const class UDamageType*, DamageType, class AController*, InstigatedBy, AActor*, DamageCauser);
+
 
 UCLASS( ClassGroup=(COOP), meta=(BlueprintSpawnableComponent) )
 class COOPSHOOTER_API USHealthComponent : public UActorComponent
@@ -27,4 +30,9 @@ protected:
 
 	UFUNCTION()
 	void HandleTakeAnyDamage(AActor* DamagedActor, float DamageEventHeader, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+
+public:
+	// Expose the custom event in blueprints
+	UPROPERTY(BlueprintAssignable, Category = Events)
+	FOnHealthChangedSignature OnHealthChanged;
 };

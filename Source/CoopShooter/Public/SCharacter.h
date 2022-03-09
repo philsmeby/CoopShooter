@@ -9,13 +9,14 @@
 class ASWeapon;
 class UCameraComponent;
 class USpringArmComponent;
+class USHealthComponent;
 
 UCLASS()
 class COOPSHOOTER_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	protected:
+protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -48,13 +49,15 @@ class COOPSHOOTER_API ASCharacter : public ACharacter
 
 	ASWeapon* CurrentWeapon;
 
+	USHealthComponent* PlayerHealthComponent;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	TSubclassOf<ASWeapon> StarterWeaponClass;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "Player")
 	FName WeaponAttachSocketName;
 
-	public:
+public:
 	// Sets default values for this character's properties
 	ASCharacter();
 	
@@ -71,4 +74,11 @@ class COOPSHOOTER_API ASCharacter : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	void StopFire();
+
+	UFUNCTION()
+	void OnHealthChanged(USHealthComponent* HealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+
+	/** Player Pawn has zero health */
+	UPROPERTY(BlueprintReadOnly, Category = Player)
+	bool bDied;
 };
