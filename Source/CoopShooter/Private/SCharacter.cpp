@@ -109,6 +109,10 @@ void ASCharacter::OnHealthChanged(USHealthComponent* HealthComp, const float Hea
 		// Kill the player
 		GetMovementComponent()->StopMovementImmediately();
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		// Prevent player movement
+		DetachFromControllerPendingDestroy();
+		SetLifeSpan(10.f);
 	}
 	
 }

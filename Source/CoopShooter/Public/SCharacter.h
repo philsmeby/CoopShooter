@@ -29,6 +29,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USpringArmComponent* SpringArmComp;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USHealthComponent* PlayerHealthComponent;
+
 	void BeginCrouch();
 
 	void EndCrouch();
@@ -48,8 +51,6 @@ protected:
 	void EndZoom();
 
 	ASWeapon* CurrentWeapon;
-
-	USHealthComponent* PlayerHealthComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	TSubclassOf<ASWeapon> StarterWeaponClass;
