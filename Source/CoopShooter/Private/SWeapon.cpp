@@ -34,6 +34,8 @@ ASWeapon::ASWeapon()
 
 	BaseDamage = 20.f;
 	RateOfFire = 600.f;
+
+	SetReplicates(true);
 }
 
 void ASWeapon::StartFire()
